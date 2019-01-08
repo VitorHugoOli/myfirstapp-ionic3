@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MovieProvider } from '../../providers/movie/movie';
+import { MovieProvider } from '/home/vitor/Documents/workspaces/ionic/myApp/src/providers/movie/movie';
 
 /**
  * Generated class for the FeedPage page.
@@ -27,6 +27,8 @@ export class FeedPage {
       qntd_comments: 4,
       time_comment:"11h ago"
   }
+  public lista_filmes = new Array<any>();
+
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
@@ -41,11 +43,26 @@ export class FeedPage {
     this.soma(25,10);
     this.movieProvider.getLatestMovies().subscribe(
       data=>{
-        console.log(data);
+        const response =(data as any);
+        const objeto_retorno = JSON.parse(response._body);
+        console.log(objeto_retorno);
       },erro=>{
         console.log(erro);
       }
     )
+    this.movieProvider.getPopularsMovies().subscribe(
+      data=>{
+        
+        const response =(data as any);
+        const objeto_retorno = JSON.parse(response._body);
+        this.lista_filmes=objeto_retorno.results;
+
+        console.log(objeto_retorno);
+      },erro=>{
+        console.log(erro);
+      }
+    )
+    
     console.log('ionViewDidLoad FeedPage');
   }
 
